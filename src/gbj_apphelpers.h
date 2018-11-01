@@ -22,6 +22,20 @@
 #ifndef GBJ_APPHELPERS_H
 #define GBJ_APPHELPERS_H
 
+#if defined(__AVR__)
+  #if ARDUINO >= 100
+    #include <Arduino.h>
+  #else
+    #include <WProgram.h>
+  #endif
+  #include <inttypes.h>
+#elif defined(ESP8266) || defined(ESP32)
+  #include <Arduino.h>
+#elif defined(PARTICLE)
+  #include <Particle.h>
+#endif
+
+
 
 class gbj_apphelpers
 {

@@ -11,13 +11,12 @@
   it under the terms of the license GNU GPL v3 http://www.gnu.org/licenses/gpl-3.0.html
   (related to original code) and MIT License (MIT) for added code.
 
+  CREDITS:
+  DateTime parsing - JeeLabs http://news.jeelabs.org/code/
+
   CREDENTIALS:
   Author: Libor Gabaj
   GitHub: https://github.com/mrkaleArduinoLib/gbj_apphelpers.git
-
-  CREDITS:
-  TimChristopher Laws
-  https://github.com/claws/BH1750.git
  */
 #ifndef GBJ_APPHELPERS_H
 #define GBJ_APPHELPERS_H
@@ -44,6 +43,23 @@ public:
 // Public constants
 //------------------------------------------------------------------------------
 static const String VERSION;
+
+
+//------------------------------------------------------------------------------
+// Public datatypes
+//------------------------------------------------------------------------------
+using Datetime = struct
+{
+  uint16_t year;
+  uint8_t month;
+  uint8_t day;
+  uint8_t hour;
+  uint8_t minute;
+  uint8_t second;
+  uint8_t weekday;
+  bool mode12h;
+  bool pm;
+};
 
 
 //------------------------------------------------------------------------------
@@ -74,10 +90,121 @@ static float calculateDewpoint(float rhum, float temp);
 
 
 //------------------------------------------------------------------------------
+// Parsing
+//------------------------------------------------------------------------------
+/*
+  Parse compiler date and time format to datetime record.
+
+  DESCRIPTION:
+  The method extracts corresponding parts of a date as well as time structure
+  from strings formatted as a compiler __DATE__ and __TIME__ system constants,
+  e.g., "Dec 26 2018" and "12:34:56".
+  - The method is overloaded, either for flashed constants or for generic
+    strings in SRAM.
+
+  PARAMETERS:
+  dtRecord - Referenced structure variable for desired date and time.
+             - Data type: gbj_apphelpers::Datetime
+             - Default value: none
+             - Limited range: address space
+
+  strDate - Pointer to a system date formatted string.
+            - Data type: char pointer
+            - Default value: none
+            - Limited range: address range
+
+  strTime - Pointer to a system time formatted string.
+            - Data type: char pointer
+            - Default value: none
+            - Limited range: address range
+
+  RETURN: none
+*/
+static void parseDateTime(Datetime &dtRecord, \
+  const char* strDate, const char* strTime);
+static void parseDateTime(Datetime &dtRecord, \
+  const __FlashStringHelper* strDate, const __FlashStringHelper* strTime);
+
+
+//------------------------------------------------------------------------------
+// Formatting
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
 // Simple conversion
 //------------------------------------------------------------------------------
 static inline float convertCelsius2Fahrenheit(float temp) { return (temp * 9.0 / 5.0) + 32.0; };
 static inline float convertFahrenheit2Celsius(float temp) { return (temp - 32.0) * 5.0 / 9.0; };
+
+
+private:
+//------------------------------------------------------------------------------
+// Private functions
+//------------------------------------------------------------------------------
+/*
+  Convert double digit to number.
+
+  DESCRIPTION:
+  The method calculates number from pointed double character, which is expected
+  to be a double digit string.
+
+  PARAMETERS:
+  p - Pointer to characters.
+      - Data type: char pointer
+      - Default value: none
+      - Limited range: address range
+
+  RETURN:
+  Number converted from double digit string.
+*/
+static uint8_t doubleDigit2number(const char* p);
+
+
+/*
+Parse compiler date format to datetime record.
+
+DESCRIPTION:
+The method extracts corresponding parts of a date structure from string
+formatted as a compiler __DATE__ system constant, e.g., "Dec 26 2018".
+
+PARAMETERS:
+dtRecord - Referenced structure variable for desired date and time.
+- Data type: gbj_apphelpers::Datetime
+- Default value: none
+- Limited range: address space
+
+strDate - Pointer to a system date formatted string.
+- Data type: char pointer
+- Default value: none
+- Limited range: address range
+
+RETURN: none
+*/
+static void parseDate(Datetime &dtRecord, const char* strDate);
+
+
+/*
+Parse compiler time format to datetime record.
+
+DESCRIPTION:
+The method extracts corresponding parts of a time structure from string
+formatted as a compiler __TIME__ system constant, e.g., "12:34:56".
+
+PARAMETERS:
+dtRecord - Referenced structure variable for desired date and time.
+- Data type: gbj_apphelpers::Datetime
+- Default value: none
+- Limited range: address space
+
+strTime - Pointer to a system time formatted string.
+- Data type: char pointer
+- Default value: none
+- Limited range: address range
+
+RETURN: none
+*/
+static void parseTime(Datetime &dtRecord, const char* strTime);
 
 };
 

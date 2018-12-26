@@ -1,6 +1,6 @@
 <a id="library"></a>
 # gbjAppHelpers
-Library with various static methods for typical but generic business logic like measurement unit conversions, calculations, etc.
+Library with various static methods for typical but generic business logic like measurement unit conversions, calculations, date and time parsing, etc.
 
 
 <a id="constants"></a>
@@ -25,12 +25,85 @@ The class is not intended to be instantiated. Each method can be called directly
 <a id="interface"></a>
 ## Interface
 
+##### Custom data types
+- [Datetime](#Datetime)
+
 #### Calculation
 - [calculateDewpoint()](#calculateDewpoint)
 
 #### Conversion
 - [convertCelsius2Fahrenheit()](#convertCelsius2Fahrenheit)
 - [convertFahrenheit2Celsius()](#convertTemperature)
+
+#### Parsing
+- [parseDateTime()](#parseDate)
+
+
+<a id="Datetime"></a>
+## Datetime
+#### Description
+Custom data type defining the structure of date and time parameters for setting and reading datetime usually to and from real time clock chips.
+
+#### Syntax
+    using Datetime = struct
+    {
+      uint16_t year;
+      uint8_t month;
+      uint8_t day;
+      uint8_t hour;
+      uint8_t minute;
+      uint8_t second;
+      uint8_t weekday;
+      bool mode12h;
+      bool pm;
+    };
+
+#### Parameters
+- **year**: Number of a year counting from zero. For setting date only last 2 digits are relevant, that are written to an RTC chip. Corresponding methods reading from RTC chips usually expect 21st century and add 2000 to read two-digit year.
+  - *Valid values*: 0 ~ 99
+  - *Default value*: none
+
+
+- **month**: Number of a month in a year counting from 1 for January.
+  - *Valid values*: 1 ~ 12
+  - *Default value*: none
+
+
+- **day**: Number of a day in a month.
+  - *Valid values*: 1 ~ 31
+  - *Default value*: none
+
+
+- **hour**: Number of an hour in a day.
+  - *Valid values*: 0 ~ 23 for 24 hours mode, 1 ~ 12 for 12 hours mode
+  - *Default value*: none
+
+
+- **minute**: Number of a minute in an hour.
+  - *Valid values*: 0 ~ 59
+  - *Default value*: none
+
+
+- **second**: Number of a second in a minute.
+  - *Valid values*: 0 ~ 59
+  - *Default value*: none
+
+
+- **weekday**: Number of a day in a week. It is up to an application to set the starting day of a week. Usually the first day is Sunday or Monday.
+  - *Valid values*: 1 ~ 7
+  - *Default value*: none
+
+
+- **mode12h**: Flag about using 12 hours mode.
+  - *Valid values*: Boolean; true for 12 hours mode, false for 24 hours one
+  - *Default value*: none
+
+
+- **pm**: Flag about past meridiem. It is relevant for 12 hours mode only but is set correctly at reading from an RTC chip at 24 hours mode as well.
+  - *Valid values*: Boolean; true for PM, false for AM
+  - *Default value*: none
+
+[Back to interface](#interface)
 
 
 <a id="calculateDewpoint"></a>
@@ -73,5 +146,46 @@ The particular method calculates temperature expressed in one temperature scale 
 
 #### Returns
 Temperature in measurement units of target temperature scale.
+
+[Back to interface](#interface)
+
+
+<a id="parseDateTime"></a>
+## parseDateTime()
+#### Description
+The method extracts corresponding parts of a date as well as time structure from strings formatted as a compiler __DATE__ and __TIME__ system constants, e.g., "Dec 26 2018" and "12:34:56".
+- The method is overloaded, either for flashed constants or for generic strings in SRAM.
+- The method does not update [Datetime](#Datetime) members `weekday`, `mode12h`, and `pm`.
+
+#### Syntax
+    void parseDateTime(Datetime &dtRecord, const char* strDate, const char* strTime);
+    void parseDateTime(Datetime &dtRecord, const __FlashStringHelper* strDate, const __FlashStringHelper* strTime);
+
+#### Parameters
+- **dtRecord**: Referenced structure variable for desired date and time.
+  - *Valid values*: [Datetime](#Datetime)
+  - *Default value*: none
+
+
+- **strDate**: Pointer to a system date formatted string.
+  - *Valid values*: address space
+  - *Default value*: none
+
+
+- **strTime**: Pointer to a system time formatted string.
+  - *Valid values*: address space
+  - *Default value*: none
+
+#### Returns
+None. Indirectly updated referenced variable for datetime structure.
+
+#### Example
+```cpp
+gbj_apphelpers::Datetime rtcDateTime;
+gbj_apphelpers::parseDateTime(rtcDateTime, __DATE__, __TIME__);
+gbj_apphelpers::parseDateTime(rtcDateTime, F(__DATE__), F(__TIME__));
+```
+#### See also
+[Datetime](#Datetime)
 
 [Back to interface](#interface)

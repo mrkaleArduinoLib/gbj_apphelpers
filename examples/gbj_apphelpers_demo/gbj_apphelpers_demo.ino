@@ -1,6 +1,6 @@
 /*
   NAME:
-  Demonstration of gbjAppHelprs librarie's functions.
+  Demonstration of gbjAppHelpers library conversion functions.
 
   DESCRIPTION:
   The sketch provides conversions and calculations built-in in the library.
@@ -39,6 +39,8 @@ void setup()
   rhumValue = 55.0;
   Serial.print("Rhum, TempC => DewPoint: ");
   Serial.println(String(rhumValue) + ", " + String(tempValue) + " => " + String(gbj_apphelpers::calculateDewpoint(rhumValue, tempValue)));
+  Serial.println("---");
+  Serial.println("END");
 }
 
 

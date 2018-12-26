@@ -13,7 +13,10 @@ gbj_apphelpers	KEYWORD1
 convertCelsius2Fahrenheit	KEYWORD2
 convertFahrenheit2Celsius	KEYWORD2
 calculateDewpoint	KEYWORD2
+parseDateTime	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
+VERSION	LITERAL1
+Datetime	LITERAL1

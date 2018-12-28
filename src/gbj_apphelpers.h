@@ -50,15 +50,15 @@ static const String VERSION;
 //------------------------------------------------------------------------------
 using Datetime = struct
 {
-  uint16_t year;
-  uint8_t month;
-  uint8_t day;
-  uint8_t hour;
-  uint8_t minute;
-  uint8_t second;
-  uint8_t weekday;
-  bool mode12h;
-  bool pm;
+  uint16_t year = 0;
+  uint8_t month = 1;
+  uint8_t day = 1;
+  uint8_t hour = 0;
+  uint8_t minute = 0;
+  uint8_t second = 0;
+  uint8_t weekday = 1;
+  bool mode12h = false;
+  bool pm = false;
 };
 
 

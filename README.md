@@ -61,47 +61,47 @@ Custom data type defining the structure of date and time parameters for setting 
 #### Parameters
 - **year**: Number of a year counting from zero. For setting date only last 2 digits are relevant, that are written to an RTC chip. Corresponding methods reading from RTC chips usually expect 21st century and add 2000 to read two-digit year.
   - *Valid values*: 0 ~ 99
-  - *Default value*: none
+  - *Default value*: 0
 
 
 - **month**: Number of a month in a year counting from 1 for January.
   - *Valid values*: 1 ~ 12
-  - *Default value*: none
+  - *Default value*: 1
 
 
 - **day**: Number of a day in a month.
   - *Valid values*: 1 ~ 31
-  - *Default value*: none
+  - *Default value*: 1
 
 
 - **hour**: Number of an hour in a day.
   - *Valid values*: 0 ~ 23 for 24 hours mode, 1 ~ 12 for 12 hours mode
-  - *Default value*: none
+  - *Default value*: 0
 
 
 - **minute**: Number of a minute in an hour.
   - *Valid values*: 0 ~ 59
-  - *Default value*: none
+  - *Default value*: 0
 
 
 - **second**: Number of a second in a minute.
   - *Valid values*: 0 ~ 59
-  - *Default value*: none
+  - *Default value*: 0
 
 
 - **weekday**: Number of a day in a week. It is up to an application to set the starting day of a week. Usually the first day is Sunday or Monday.
   - *Valid values*: 1 ~ 7
-  - *Default value*: none
+  - *Default value*: 1
 
 
 - **mode12h**: Flag about using 12 hours mode.
   - *Valid values*: Boolean; true for 12 hours mode, false for 24 hours one
-  - *Default value*: none
+  - *Default value*: false
 
 
 - **pm**: Flag about past meridiem. It is relevant for 12 hours mode only but is set correctly at reading from an RTC chip at 24 hours mode as well.
   - *Valid values*: Boolean; true for PM, false for AM
-  - *Default value*: none
+  - *Default value*: false
 
 [Back to interface](#interface)
 

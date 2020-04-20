@@ -1,5 +1,5 @@
 #include "gbj_apphelpers.h"
-const String gbj_apphelpers::VERSION = "GBJ_APPHELPERS 1.0.0";
+const String gbj_apphelpers::VERSION = "GBJ_APPHELPERS 1.0.1";
 
 
 float gbj_apphelpers::calculateDewpoint(float rhum, float temp)
@@ -20,7 +20,7 @@ float gbj_apphelpers::calculateDewpoint(float rhum, float temp)
 }
 
 
-uint8_t gbj_apphelpers::doubleDigit2number(const char* p)
+uint8_t gbj_apphelpers::doubleDigit2Number(const char* p)
 {
   uint8_t num = 0;
   if ('0' <= *p && *p <= '9') num = *p - '0';
@@ -31,8 +31,8 @@ uint8_t gbj_apphelpers::doubleDigit2number(const char* p)
 void gbj_apphelpers::parseDate(Datetime &dtRecord, const char* strDate)
 {
   // Parse date "Dec 26 2018"
-  dtRecord.year = doubleDigit2number(&strDate[9]);
-  dtRecord.day = doubleDigit2number(&strDate[4]);
+  dtRecord.year = doubleDigit2Number(&strDate[9]);
+  dtRecord.day = doubleDigit2Number(&strDate[4]);
   // Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
   switch (strDate[0])
   {
@@ -74,9 +74,9 @@ void gbj_apphelpers::parseDate(Datetime &dtRecord, const char* strDate)
 void gbj_apphelpers::parseTime(Datetime &dtRecord, const char* strTime)
 {
   // Parse time "12:34:56"
-  dtRecord.hour = doubleDigit2number(&strTime[0]);
-  dtRecord.minute = doubleDigit2number(&strTime[3]);
-  dtRecord.second = doubleDigit2number(&strTime[6]);
+  dtRecord.hour = doubleDigit2Number(&strTime[0]);
+  dtRecord.minute = doubleDigit2Number(&strTime[3]);
+  dtRecord.second = doubleDigit2Number(&strTime[6]);
 }
 
 

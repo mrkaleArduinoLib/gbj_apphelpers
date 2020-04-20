@@ -158,7 +158,7 @@ private:
   RETURN:
   Number converted from double digit string.
 */
-static uint8_t doubleDigit2number(const char* p);
+static uint8_t doubleDigit2Number(const char* p);
 
 
 /*

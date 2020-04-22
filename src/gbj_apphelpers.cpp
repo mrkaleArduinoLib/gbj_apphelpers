@@ -1,5 +1,5 @@
 #include "gbj_apphelpers.h"
-const String gbj_apphelpers::VERSION = "GBJ_APPHELPERS 1.0.1";
+const String gbj_apphelpers::VERSION = "GBJ_APPHELPERS 1.1.0";
 
 
 float gbj_apphelpers::calculateDewpoint(float rhum, float temp)
@@ -96,4 +96,11 @@ void gbj_apphelpers::parseDateTime(Datetime &dtRecord, \
   parseDate(dtRecord, buffer);
   memcpy_P(buffer, flashTime, 8);
   parseTime(dtRecord, buffer);
+}
+
+void gbj_apphelpers::wait(unsigned long delay)
+{
+  uint32_t timestamp = millis();
+  while (millis() - timestamp < delay)
+    ;
 }

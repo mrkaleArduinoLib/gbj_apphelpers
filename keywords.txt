@@ -14,6 +14,10 @@ convertCelsius2Fahrenheit	KEYWORD2
 convertFahrenheit2Celsius	KEYWORD2
 calculateDewpoint	KEYWORD2
 parseDateTime	KEYWORD2
+sort_buble_asc	KEYWORD2
+sort_buble_desc	KEYWORD2
+swapdata	KEYWORD2
+wait	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

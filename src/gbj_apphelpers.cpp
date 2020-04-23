@@ -9,12 +9,16 @@ float gbj_apphelpers::calculateDewpoint(float rhum, float temp)
   const float C = 235.66;
   const float NaN = -999.0;
   // Check input parameters
-  if (rhum <= 0.0) return NaN;
-  if (temp <= -273.15) return NaN;
-  if (temp == -1.0 * B) return NaN;
+  if (rhum <= 0.0)
+    return NaN;
+  if (temp <= -273.15)
+    return NaN;
+  if (temp == -1.0 * B)
+    return NaN;
   // Calculate
   float dewpoint = log10(rhum) - 2.0 - (B / (temp + C));
-  if (dewpoint == 0) return NaN;
+  if (dewpoint == 0)
+    return NaN;
   dewpoint = B / dewpoint + C;
   return -1.0 * dewpoint;
 }
@@ -100,6 +104,8 @@ void gbj_apphelpers::parseDateTime(Datetime &dtRecord, \
 
 void gbj_apphelpers::wait(unsigned long delay)
 {
+  if (delay == 0)
+    return;
   uint32_t timestamp = millis();
   while (millis() - timestamp < delay)
     ;

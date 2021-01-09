@@ -1,5 +1,5 @@
 #include "gbj_apphelpers.h"
-const String gbj_apphelpers::VERSION = "GBJ_APPHELPERS 1.1.0";
+const String gbj_apphelpers::VERSION = "GBJ_APPHELPERS 1.2.0";
 
 
 float gbj_apphelpers::calculateDewpoint(float rhum, float temp)
@@ -21,14 +21,6 @@ float gbj_apphelpers::calculateDewpoint(float rhum, float temp)
     return NaN;
   dewpoint = B / dewpoint + C;
   return -1.0 * dewpoint;
-}
-
-
-uint8_t gbj_apphelpers::doubleDigit2Number(const char* p)
-{
-  uint8_t num = 0;
-  if ('0' <= *p && *p <= '9') num = *p - '0';
-  return 10 * num + *++p - '0';
 }
 
 
@@ -75,15 +67,6 @@ void gbj_apphelpers::parseDate(Datetime &dtRecord, const char* strDate)
 }
 
 
-void gbj_apphelpers::parseTime(Datetime &dtRecord, const char* strTime)
-{
-  // Parse time "12:34:56"
-  dtRecord.hour = doubleDigit2Number(&strTime[0]);
-  dtRecord.minute = doubleDigit2Number(&strTime[3]);
-  dtRecord.second = doubleDigit2Number(&strTime[6]);
-}
-
-
 void gbj_apphelpers::parseDateTime(Datetime &dtRecord, \
   const char* strDate, const char* strTime)
 {
@@ -91,22 +74,13 @@ void gbj_apphelpers::parseDateTime(Datetime &dtRecord, \
   parseTime(dtRecord, strTime);
 }
 
-
-void gbj_apphelpers::parseDateTime(Datetime &dtRecord, \
-  const __FlashStringHelper* strDate, const __FlashStringHelper* flashTime)
+void gbj_apphelpers::parseDateTime(Datetime &dtRecord,
+                                   const __FlashStringHelper *strDate,
+                                   const __FlashStringHelper *flashTime)
 {
   char buffer[11];
   memcpy_P(buffer, strDate, 11);
   parseDate(dtRecord, buffer);
   memcpy_P(buffer, flashTime, 8);
   parseTime(dtRecord, buffer);
-}
-
-void gbj_apphelpers::wait(unsigned long delay)
-{
-  if (delay == 0)
-    return;
-  uint32_t timestamp = millis();
-  while (millis() - timestamp < delay)
-    ;
 }

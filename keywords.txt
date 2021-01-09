@@ -10,10 +10,13 @@ gbj_apphelpers	KEYWORD1
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
+calculateDewpoint	KEYWORD2
+calculateDigits	KEYWORD2
 convertCelsius2Fahrenheit	KEYWORD2
 convertFahrenheit2Celsius	KEYWORD2
-calculateDewpoint	KEYWORD2
+debounce	KEYWORD2
 parseDateTime	KEYWORD2
+sanitize	KEYWORD2
 sort_buble_asc	KEYWORD2
 sort_buble_desc	KEYWORD2
 swapdata	KEYWORD2

@@ -309,31 +309,6 @@ class gbj_apphelpers
       item2 = temp;
     }
 
-    /*
-      Wait for a period of time.
-
-      DESCRIPTION:
-      The method waits in a loop until input delay expires.
-      - Method instead delay() function utilizes function millis().
-
-      PARAMETERS:
-      delay - Waiting time period in milliseconds.
-        - Data type: non-negative integer
-        - Default value: none
-        - Limited range: 0 ~ 2^32 - 1
-
-      RETURN: none
-    */
-    static inline void wait(uint32_t delay)
-    {
-      if (delay)
-      {
-        uint32_t timestamp = millis();
-        while (millis() - timestamp < delay)
-          ;
-      }
-    }
-
   private:
     /*
       Convert double digit to number.

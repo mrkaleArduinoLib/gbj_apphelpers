@@ -20,7 +20,6 @@ sanitize	KEYWORD2
 sort_buble_asc	KEYWORD2
 sort_buble_desc	KEYWORD2
 swapdata	KEYWORD2
-wait	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

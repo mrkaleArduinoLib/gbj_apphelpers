@@ -15,7 +15,6 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_apphelpers/extras/test`
 * **sort_data.cpp**: Test suite providing test cases for sorting with method buble sorting.
 * **swap_data.cpp**: Test suite providing test cases for swapping a pair of data items.
 * **temperature_conversion.cpp**: Test suite providing test cases for temperature conversion between Celsius, Farenheit, and Kelvin scales.
-* **wait_millis.cpp**: Test suite providing test cases for suspending processing for defining amount of milliseconds.
 
 
 <a id="constants"></a>
@@ -71,7 +70,6 @@ The class is not intended to be instantiated. Each method can be called directly
 #### Utilities
 
 * [debounce()](#debounce)
-* [wait()](#wait)
 
 
 <a id="Datetime"></a>
@@ -346,26 +344,5 @@ The method swappes input data items pair upside down.
 
 #### Returns
 None. Indirectly swapped values of referenced variables.
-
-[Back to interface](#interface)
-
-
-<a id="wait"></a>
-## wait()
-
-#### Description
-The method waits in a loop until input delay expires.
-* Method instead `delay()` function utilizes function `millis()`.
-
-#### Syntax
-    void wait(uint32_t delay)
-
-#### Parameters
-* **delay**: Waiting time period in milliseconds.
-  * *Valid values*: 0 ~ (2^32 - 1)
-  * *Default value*: none
-
-#### Returns
-None.
 
 [Back to interface](#interface)

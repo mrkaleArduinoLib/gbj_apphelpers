@@ -11,7 +11,6 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_apphelpers/extras/test`
 * **calculate_digits.cpp**: Test suite providing test cases for determining count of digits in non-negative integers.
 * **parse_datetime.cpp**: Test suite providing test cases for datatime strings and structure parsing.
 * **sanitize.cpp**: Test suite providing test cases for sanitizing data values with default ones of various data types for valid range.
-* **sanitize.cpp**: Test suite providing test cases for sanitizing data values.
 * **sort_data.cpp**: Test suite providing test cases for sorting with method buble sorting.
 * **swap_data.cpp**: Test suite providing test cases for swapping a pair of data items.
 * **temperature_conversion.cpp**: Test suite providing test cases for temperature conversion between Celsius, Farenheit, and Kelvin scales.
@@ -44,10 +43,11 @@ The class is not intended to be instantiated. Each method can be called directly
 
 #### Data processing
 
-* [sanitize](#sanitize)
-* [sort_buble_asc](#sort_buble)
-* [sort_buble_desc](#sort_buble)
-* [swapdata](#swapdata)
+* [check()](#check)
+* [sanitize()](#sanitize)
+* [sort_buble_asc()](#sort_buble)
+* [sort_buble_desc()](#sort_buble)
+* [swapdata()](#swapdata)
 
 
 #### Calculation
@@ -268,8 +268,34 @@ gbj_apphelpers::Datetime rtcDateTime;
 gbj_apphelpers::parseDateTime(rtcDateTime, __DATE__, __TIME__);
 gbj_apphelpers::parseDateTime(rtcDateTime, F(__DATE__), F(__TIME__));
 ```
+
 #### See also
 [Datetime](#Datetime)
+
+[Back to interface](#interface)
+
+
+<a id="check"></a>
+## check()
+
+#### Description
+The method tests input value for valid range defined by minimum and maximum value.
+* Values can be of any comparable data type, but all of the same one.
+
+#### Syntax
+    template<class T>
+    bool check(T valCur, T valMin, T valMax)
+
+#### Parameters
+* **valCur**: Input tested current value.
+* **valMin**: Minimal value of a valid range (value space).
+* **valMax**: Maximal value of a valid range (value space).
+
+#### Returns
+Boolean flag about current value inside the valid range.
+
+#### See also
+[sanitize()](#sanitize)
 
 [Back to interface](#interface)
 
@@ -294,6 +320,9 @@ The method tests input value for valid range defined by minimum and maximum valu
 #### Returns
 * Input current value if it is inside the valid range.
 * Default value if input current value is outside the valid range.
+
+#### See also
+[check()](#check)
 
 [Back to interface](#interface)
 

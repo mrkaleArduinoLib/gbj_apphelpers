@@ -12,6 +12,7 @@ gbj_apphelpers	KEYWORD1
 #######################################
 calculateDewpoint	KEYWORD2
 calculateDigits	KEYWORD2
+check	KEYWORD2
 convertCelsius2Fahrenheit	KEYWORD2
 convertFahrenheit2Celsius	KEYWORD2
 debounce	KEYWORD2

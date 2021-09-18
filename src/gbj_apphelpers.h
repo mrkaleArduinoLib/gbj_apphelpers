@@ -192,6 +192,30 @@ public:
                             const __FlashStringHelper *strTime);
 
   /*
+    Check value for valid range.
+
+    DESCRIPTION:
+    The method tests input value for valid range defined by minimum and
+    maximum value.
+    - Values can of any comparable data type, but all of the same one.
+
+    PARAMETERS:
+    valCur - Checked value.
+    valMin, valMax - Values determining a valid range.
+
+    RETURN: Boolean flag of validity
+  */
+  template<class T>
+  static inline bool check(T valCur, T valMin, T valMax)
+  {
+    if (valCur < valMin || valCur > valMax)
+    {
+      return false;
+    }
+    return true;
+  }
+
+  /*
     Sanitize value for valid range and default value.
 
     DESCRIPTION:
@@ -205,12 +229,12 @@ public:
     valDft - Default value.
     valMin, valMax - Values determining a valid range.
 
-    RETURN: none
+    RETURN: Current of default value
   */
   template<class T>
   static inline T sanitize(T valCur, T valDft, T valMin, T valMax)
   {
-    if (valCur < valMin || valCur > valMax)
+    if (!check(valCur, valMin, valMax))
     {
       valCur = valDft;
     }

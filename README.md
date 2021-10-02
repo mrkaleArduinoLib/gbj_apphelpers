@@ -29,7 +29,7 @@ The class is not intended to be instantiated. Each method can be called directly
 
 ```cpp
   #include "gbj_apphelpers.h"
-  float tempF = gbj_apphelpers::convertCelsius2Fahrenheit(20.0);
+  float tempF = gbj_apphelpers::convertCelsius2Fahrenheit(20.0)
 ```
 
 
@@ -265,8 +265,8 @@ None. Indirectly updated referenced variable for datetime structure.
 #### Example
 ```cpp
 gbj_apphelpers::Datetime rtcDateTime;
-gbj_apphelpers::parseDateTime(rtcDateTime, __DATE__, __TIME__);
-gbj_apphelpers::parseDateTime(rtcDateTime, F(__DATE__), F(__TIME__));
+gbj_apphelpers::parseDateTime(rtcDateTime, __DATE__, __TIME__)
+gbj_apphelpers::parseDateTime(rtcDateTime, F(__DATE__), F(__TIME__))
 ```
 
 #### See also

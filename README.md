@@ -265,8 +265,8 @@ None. Indirectly updated referenced variable for datetime structure.
 #### Example
 ```cpp
 gbj_apphelpers::Datetime rtcDateTime;
-gbj_apphelpers::parseDateTime(rtcDateTime, __DATE__, __TIME__)
-gbj_apphelpers::parseDateTime(rtcDateTime, F(__DATE__), F(__TIME__))
+gbj_apphelpers::parseDateTime(rtcDateTime, __DATE__, __TIME__);
+gbj_apphelpers::parseDateTime(rtcDateTime, F(__DATE__), F(__TIME__));
 ```
 
 #### See also

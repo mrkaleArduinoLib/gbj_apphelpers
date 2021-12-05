@@ -331,6 +331,24 @@ public:
     item2 = temp;
   }
 
+  /*
+    URL encode string.
+
+    DESCRIPTION:
+    The method prepares a string for URL.
+
+    PARAMETERS:
+    url - Text for URL or entire one.
+      - Data type: String
+
+    RETURN: none
+  */
+  static inline String urlencode(String url)
+  {
+    url.replace(" ", "%20");
+    return url;
+  }
+
 private:
   /*
     Convert double digit to number.

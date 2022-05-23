@@ -1,8 +1,8 @@
 {
   "name": "gbj_apphelpers",
   "version": "1.3.0",
-  "keywords": "application, helper",
   "description": "The library provides common application oriented funcionalities in order not to multiply them in sensor libraries.",
+  "keywords": "application, helper",
   "repository": {
     "type": "git",
     "url": "https://github.com/mrkaleArduinoLib/gbj_apphelpers.git"

@@ -1,12 +1,16 @@
 <a id="library"></a>
-# gbj_apphelpers
-Library with various static methods for typical but generic business logic like measurement unit conversions, calculations, date and time parsing, data sanitizing and manipulation, etc.
+
+# gbj\_apphelpers
+Library with various static methods for typical but generic business logic like measurement unit conversions, calculations, date and time parsing, data sanitizing and manipulation, textual formatting, etc.
 
 
 <a id="tests"></a>
+
 ## Unit testing
 
-The subfolder `tests` in the folder `extras`, i.e., `gbj_apphelpers/extras/test`, contains testing files, usually just one, with unit tests of library [gbj_apphelpers](#library) executable by [Unity](http://www.throwtheswitch.org/unity) test runner. Each testing file should be placed in an individual test folder of a particular project, usually in the structure `test/<testname>/<testfile>`.
+The subfolder `tests` in the folder `extras`, i.e., `gbj_apphelpers/extras/test`, contains testing files, usually just one, with unit tests of library [gbj_apphelpers](#library) executable by [Unity](http://www.throwtheswitch.org/unity) test runner. Each testing file should be placed in an individual test subfolder of a particular project, usually in the structure `test/test_<testname>/<testfile>`.
+
+> The name of a test subfolder should be prefixed with `test_` otherwise the test is ignored, e.g., `test_mytest`.
 
 * **calculate_digits.cpp**: Test suite providing test cases for determining count of digits in non-negative integers.
 * **parse_datetime.cpp**: Test suite providing test cases for datatime strings and structure parsing.
@@ -14,16 +18,11 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_apphelpers/extras/test`
 * **sort_data.cpp**: Test suite providing test cases for sorting with method buble sorting.
 * **swap_data.cpp**: Test suite providing test cases for swapping a pair of data items.
 * **temperature_conversion.cpp**: Test suite providing test cases for temperature conversion between Celsius, Farenheit, and Kelvin scales.
-
-
-<a id="constants"></a>
-## Constants
-All constants are embedded into the class as static ones including result and error codes except constant defining hardware keypad equipment.
-
-* **VERSION**: Name and semantic version of the library.
+* **format_seconds.cpp**: Test suite providing test cases for formatting time periods.
 
 
 <a id="usage"></a>
+
 ## Usage
 The class is not intended to be instantiated. Each method can be called directly as qualified method name, i.e., just with concatenation of the class name scope resolution operator, and method name. For example:
 
@@ -34,6 +33,7 @@ The class is not intended to be instantiated. Each method can be called directly
 
 
 <a id="interface"></a>
+
 ## Interface
 
 ##### Custom data types
@@ -67,12 +67,20 @@ The class is not intended to be instantiated. Each method can be called directly
 * [parseDateTime()](#parseDateTime)
 
 
+#### Formatting
+
+* [formatTimeDay()](#formatTimeDay)
+* [formatTimePeriod()](#formatTimePeriod)
+* [formatTimePeriodDense()](#formatTimePeriodDense)
+
+
 #### Utilities
 
 * [debounce()](#debounce)
 
 
 <a id="Datetime"></a>
+
 ## Datetime
 
 #### Description
@@ -141,6 +149,7 @@ Custom data type defining the structure of date and time parameters for setting 
 
 
 <a id="calculateDewpoint"></a>
+
 ## calculateDewpoint()
 
 #### Description
@@ -166,6 +175,7 @@ Dew point temperature in centigrade or the error value -999.0.
 
 
 <a id="calculateDigits"></a>
+
 ## calculateDigits()
 
 #### Description
@@ -186,6 +196,7 @@ Number of digits in the integer at decimal notation in range 0 ~ 10.
 
 
 <a id="convertTemperature"></a>
+
 ## convertCelsius2Fahrenheit(), convertFahrenheit2Celsius()
 
 #### Description
@@ -207,6 +218,7 @@ Temperature in measurement units of target temperature scale.
 
 
 <a id="debounce"></a>
+
 ## debounce()
 
 #### Description
@@ -233,6 +245,7 @@ Steady input value of the pin.
 
 
 <a id="parseDateTime"></a>
+
 ## parseDateTime()
 
 #### Description
@@ -276,6 +289,7 @@ gbj_apphelpers::parseDateTime(rtcDateTime, F(__DATE__), F(__TIME__));
 
 
 <a id="check"></a>
+
 ## check()
 
 #### Description
@@ -301,6 +315,7 @@ Boolean flag about current value inside the valid range.
 
 
 <a id="sanitize"></a>
+
 ## sanitize()
 
 #### Description
@@ -328,6 +343,7 @@ The method tests input value for valid range defined by minimum and maximum valu
 
 
 <a id="sort_buble"></a>
+
 ## sort_buble_asc(), sort_buble_desc()
 
 #### Description
@@ -356,6 +372,7 @@ None. Indirectly sorted referenced data buffer.
 
 
 <a id="swapdata"></a>
+
 ## swapdata()
 
 #### Description
@@ -373,5 +390,79 @@ The method swappes input data items pair upside down.
 
 #### Returns
 None. Indirectly swapped values of referenced variables.
+
+[Back to interface](#interface)
+
+
+<a id="formatTimeDay"></a>
+
+## formatTimeDay()
+
+#### Description
+The method formats input seconds since midnight to string with hours, minutes, and seconds all with leading zeros.
+* Formatted output is of form `??:??:??`.
+
+#### Syntax
+    String formatTimeDay(uint32_t totalSeconds)
+
+#### Parameters
+* **totalSeconds**: Number of seconds since midnight in a day.
+  * *Valid values*: 32-bit unsigned integer
+  * *Default value*: none
+
+#### Returns
+Formatted string as an expression of a time within a day.
+
+[Back to interface](#interface)
+
+
+<a id="formatTimePeriod"></a>
+
+## formatTimePeriod()
+
+#### Description
+The method formats input time period in seconds to string with days, hours, minutes, and seconds with leading spaces.
+* Formatted output is of form `???d ??h ??m ??s`.
+* Leading zero segments are omitted from output, e.g., for time period shorter than one hour and equal or longer than one minute it is `??m ??s`.
+
+#### Syntax
+    String formatTimePeriod(uint32_t totalSeconds)
+
+#### Parameters
+* **totalSeconds**: Time period in seconds.
+  * *Valid values*: 32-bit unsigned integer
+  * *Default value*: none
+
+#### Returns
+Formatted string as an expression of a time period at most in days.
+
+#### See also
+[formatTimePeriodDense()](#formatTimePeriodDense)
+
+[Back to interface](#interface)
+
+
+<a id="formatTimePeriodDense"></a>
+
+## formatTimePeriodDense()
+
+#### Description
+The method formats input time period in seconds to string with days, hours, minutes, and seconds without any spaces.
+* Formatted output is of form `???d??h??m??s`.
+* Leading zero segments are omitted from output, e.g., for time period shorter than one hour and equal or longer than one minute it is `??m??s`.
+
+#### Syntax
+    String formatTimePeriodDense(uint32_t totalSeconds)
+
+#### Parameters
+* **totalSeconds**: Time period in seconds.
+  * *Valid values*: 32-bit unsigned integer
+  * *Default value*: none
+
+#### Returns
+Formatted string as an expression of a time period at most in days without delimiting spaces.
+
+#### See also
+[formatTimePeriod()](#formatTimePeriod)
 
 [Back to interface](#interface)

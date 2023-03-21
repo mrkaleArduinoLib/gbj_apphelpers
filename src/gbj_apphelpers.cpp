@@ -1,6 +1,4 @@
 #include "gbj_apphelpers.h"
-const String gbj_apphelpers::VERSION = "GBJ_APPHELPERS 1.3.0";
-
 
 float gbj_apphelpers::calculateDewpoint(float rhum, float temp)
 {

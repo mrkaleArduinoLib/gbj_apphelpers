@@ -36,8 +36,6 @@
 class gbj_apphelpers
 {
 public:
-  static const String VERSION;
-
   using Datetime = struct Datetime
   {
     uint16_t year = 0;
@@ -349,80 +347,173 @@ public:
     return url;
   }
 
-private:
   /*
-    Convert double digit to number.
+    Format daily time in seconds.
 
     DESCRIPTION:
-    The method calculates number from pointed double character, which is
-    expected to be a double digit string.
+    The method formats input seconds to string with hours, minutes,
+    and seconds all with leading zeros (??:??:??).
 
     PARAMETERS:
-    p - Pointer to characters.
-      - Data type: char pointer
-      - Default value: none
-      - Limited range: address range
+    totalSeconds - Seconds since midnight.
+      - Data type: 32-bit integer
 
     RETURN:
-    Number converted from double digit string.
+    String - formatted textual expression of a time within a day.
   */
-  static inline uint8_t doubleDigit2Number(const char *p)
+  static inline String formatTimeDay(uint32_t totalSeconds)
   {
-    uint8_t num = 0;
-    if ('0' <= *p && *p <= '9')
-      num = *p - '0';
-    return 10 * num + *++p - '0';
+    char result[9];
+    uint8_t seconds = totalSeconds % 60;
+
+    uint32_t totalMinutes = totalSeconds / 60;
+    uint8_t minutes = totalMinutes % 60;
+
+    uint32_t totalHours = totalMinutes / 60;
+    uint8_t hours = totalHours % 24;
+
+    sprintf(result, "%02u:%02u:%02u", hours, minutes, seconds);
+    return result;
   }
 
   /*
-  Parse compiler date format to datetime record.
+    Format time period in seconds.
 
-  DESCRIPTION:
-  The method extracts corresponding parts of a date structure from string
-  formatted as a compiler __DATE__ system constant, e.g., "Dec 26 2018".
+    DESCRIPTION:
+    The method formats input seconds to string with days, hours, minutes,
+    and seconds ([[x]xd ][[x]xh ][[x]xm ][x]xs).
 
-  PARAMETERS:
-  dtRecord - Referenced structure variable for desired date and time.
-  - Data type: gbj_apphelpers::Datetime
-  - Default value: none
-  - Limited range: address space
+    PARAMETERS:
+    totalSeconds - Length of a time period in seconds.
+      - Data type: integer
 
-  strDate - Pointer to a system date formatted string.
-  - Data type: char pointer
-  - Default value: none
-  - Limited range: address range
-
-  RETURN: none
+    RETURN:
+    String - formatted textual expresion of a time period.
   */
-  static void parseDate(Datetime &dtRecord, const char *strDate);
+  static inline String formatTimePeriod(uint32_t totalSeconds)
+  {
+    uint8_t seconds = totalSeconds % 60;
+
+    uint32_t totalMinutes = totalSeconds / 60;
+    uint8_t minutes = totalMinutes % 60;
+
+    uint32_t totalHours = totalMinutes / 60;
+    uint8_t hours = totalHours % 24;
+
+    uint32_t days = totalHours / 24;
+
+    String result = "";
+    if (days > 0)
+    {
+      result += String(days) + "d ";
+    }
+    if (result.length() > 0 || hours > 0)
+    {
+      result += String(hours) + "h ";
+    }
+    if (result.length() > 0 || minutes > 0)
+    {
+      result += String(minutes) + "m ";
+    }
+
+    return result + String(seconds) + "s";
+  }
 
   /*
-  Parse compiler time format to datetime record.
+    Format time period in seconds without spaces.
 
-  DESCRIPTION:
-  The method extracts corresponding parts of a time structure from string
-  formatted as a compiler __TIME__ system constant, e.g., "12:34:56".
+    DESCRIPTION:
+    The method formats input seconds to string with days, hours, minutes,
+    and seconds ([[x]xd][[x]xh][[x]xm][x]xs).
 
-  PARAMETERS:
-  dtRecord - Referenced structure variable for desired date and time.
-  - Data type: gbj_apphelpers::Datetime
-  - Default value: none
-  - Limited range: address space
+    PARAMETERS:
+    totalSeconds - Length of a time period in seconds.
+      - Data type: integer
 
-  strTime - Pointer to a system time formatted string.
-  - Data type: char pointer
-  - Default value: none
-  - Limited range: address range
-
-  RETURN: none
+    RETURN:
+    String - formatted textual expresion of a time period.
   */
-  static inline void parseTime(Datetime &dtRecord, const char *strTime)
+  static inline String formatTimePeriodDense(uint32_t totalSeconds)
   {
-    // Parse time "12:34:56"
-    dtRecord.hour = doubleDigit2Number(&strTime[0]);
-    dtRecord.minute = doubleDigit2Number(&strTime[3]);
-    dtRecord.second = doubleDigit2Number(&strTime[6]);
+    String result = formatTimePeriod(totalSeconds);
+    result.replace(" ", "");
+    return result;
   }
-};
+
+  private:
+    /*
+      Convert double digit to number.
+
+      DESCRIPTION:
+      The method calculates number from pointed double character, which is
+      expected to be a double digit string.
+
+      PARAMETERS:
+      p - Pointer to characters.
+        - Data type: char pointer
+        - Default value: none
+        - Limited range: address range
+
+      RETURN:
+      Number converted from double digit string.
+    */
+    static inline uint8_t doubleDigit2Number(const char *p)
+    {
+      uint8_t num = 0;
+      if ('0' <= *p && *p <= '9')
+        num = *p - '0';
+      return 10 * num + *++p - '0';
+    }
+
+    /*
+    Parse compiler date format to datetime record.
+
+    DESCRIPTION:
+    The method extracts corresponding parts of a date structure from string
+    formatted as a compiler __DATE__ system constant, e.g., "Dec 26 2018".
+
+    PARAMETERS:
+    dtRecord - Referenced structure variable for desired date and time.
+    - Data type: gbj_apphelpers::Datetime
+    - Default value: none
+    - Limited range: address space
+
+    strDate - Pointer to a system date formatted string.
+    - Data type: char pointer
+    - Default value: none
+    - Limited range: address range
+
+    RETURN: none
+    */
+    static void parseDate(Datetime & dtRecord, const char *strDate);
+
+    /*
+    Parse compiler time format to datetime record.
+
+    DESCRIPTION:
+    The method extracts corresponding parts of a time structure from string
+    formatted as a compiler __TIME__ system constant, e.g., "12:34:56".
+
+    PARAMETERS:
+    dtRecord - Referenced structure variable for desired date and time.
+    - Data type: gbj_apphelpers::Datetime
+    - Default value: none
+    - Limited range: address space
+
+    strTime - Pointer to a system time formatted string.
+    - Data type: char pointer
+    - Default value: none
+    - Limited range: address range
+
+    RETURN: none
+    */
+    static inline void parseTime(Datetime & dtRecord, const char *strTime)
+    {
+      // Parse time "12:34:56"
+      dtRecord.hour = doubleDigit2Number(&strTime[0]);
+      dtRecord.minute = doubleDigit2Number(&strTime[3]);
+      dtRecord.second = doubleDigit2Number(&strTime[6]);
+    }
+  };
 
 #endif

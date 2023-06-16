@@ -140,8 +140,7 @@ public:
       - Default value: none
       - Limited range: 0 ~ 255
 
-    RETURN:
-    Stabil input value of the pin.
+    RETURN: Stabile input value of the pin.
   */
   static inline uint8_t debounce(uint8_t iniVal, uint8_t pin)
   {

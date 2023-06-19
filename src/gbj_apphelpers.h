@@ -135,12 +135,14 @@ public:
       - Data type: uint8_t
       - Default value: none
       - Limited range: 0 ~ 255
+
     pin - GPIO number of a microcontroller with connected button.
       - Data type: uint8_t
       - Default value: none
       - Limited range: 0 ~ 255
 
-    RETURN: Stabile input value of the pin.
+    RETURN:
+    Stabile input value of the pin.
   */
   static inline uint8_t debounce(uint8_t iniVal, uint8_t pin)
   {
@@ -200,7 +202,8 @@ public:
     valCur - Checked value.
     valMin, valMax - Values determining a valid range.
 
-    RETURN: Boolean flag of validity
+    RETURN:
+    Boolean flag of validity.
   */
   template<class T>
   static inline bool check(T valCur, T valMin, T valMax)
@@ -226,7 +229,8 @@ public:
     valDft - Default value.
     valMin, valMax - Values determining a valid range.
 
-    RETURN: Current of default value
+    RETURN:
+    Current of default value.
   */
   template<class T>
   static inline T sanitize(T valCur, T valDft, T valMin, T valMax)
@@ -387,7 +391,7 @@ public:
       - Data type: integer
 
     RETURN:
-    String - formatted textual expresion of a time period.
+     String - formatted textual expresion of a time period.
   */
   static inline String formatTimePeriod(uint32_t totalSeconds)
   {
@@ -439,80 +443,142 @@ public:
     return result;
   }
 
-  private:
-    /*
-      Convert double digit to number.
-
-      DESCRIPTION:
-      The method calculates number from pointed double character, which is
-      expected to be a double digit string.
-
-      PARAMETERS:
-      p - Pointer to characters.
-        - Data type: char pointer
-        - Default value: none
-        - Limited range: address range
-
-      RETURN:
-      Number converted from double digit string.
-    */
-    static inline uint8_t doubleDigit2Number(const char *p)
-    {
-      uint8_t num = 0;
-      if ('0' <= *p && *p <= '9')
-        num = *p - '0';
-      return 10 * num + *++p - '0';
-    }
-
-    /*
-    Parse compiler date format to datetime record.
+private:
+  /*
+    Convert double digit to number.
 
     DESCRIPTION:
-    The method extracts corresponding parts of a date structure from string
-    formatted as a compiler __DATE__ system constant, e.g., "Dec 26 2018".
+    The method calculates number from pointed double character, which is
+    expected to be a double digit string.
 
     PARAMETERS:
-    dtRecord - Referenced structure variable for desired date and time.
-    - Data type: gbj_apphelpers::Datetime
-    - Default value: none
-    - Limited range: address space
+    p - Pointer to characters.
+      - Data type: char pointer
+      - Default value: none
+      - Limited range: address range
 
-    strDate - Pointer to a system date formatted string.
-    - Data type: char pointer
-    - Default value: none
-    - Limited range: address range
+    RETURN:
+    Number converted from double digit string.
+  */
+  static inline uint8_t doubleDigit2Number(const char *p)
+  {
+    uint8_t num = 0;
+    if ('0' <= *p && *p <= '9')
+      num = *p - '0';
+    return 10 * num + *++p - '0';
+  }
 
-    RETURN: none
-    */
-    static void parseDate(Datetime & dtRecord, const char *strDate);
+  /*
+  Parse compiler date format to datetime record.
 
-    /*
-    Parse compiler time format to datetime record.
+  DESCRIPTION:
+  The method extracts corresponding parts of a date structure from string
+  formatted as a compiler __DATE__ system constant, e.g., "Dec 26 2018".
 
-    DESCRIPTION:
-    The method extracts corresponding parts of a time structure from string
-    formatted as a compiler __TIME__ system constant, e.g., "12:34:56".
+  PARAMETERS:
+  dtRecord - Referenced structure variable for desired date and time.
+  - Data type: gbj_apphelpers::Datetime
+  - Default value: none
+  - Limited range: address space
 
-    PARAMETERS:
-    dtRecord - Referenced structure variable for desired date and time.
-    - Data type: gbj_apphelpers::Datetime
-    - Default value: none
-    - Limited range: address space
+  strDate - Pointer to a system date formatted string.
+  - Data type: char pointer
+  - Default value: none
+  - Limited range: address range
 
-    strTime - Pointer to a system time formatted string.
-    - Data type: char pointer
-    - Default value: none
-    - Limited range: address range
+  RETURN: none
+  */
+  static void parseDate(Datetime &dtRecord, const char *strDate);
 
-    RETURN: none
-    */
-    static inline void parseTime(Datetime & dtRecord, const char *strTime)
-    {
-      // Parse time "12:34:56"
-      dtRecord.hour = doubleDigit2Number(&strTime[0]);
-      dtRecord.minute = doubleDigit2Number(&strTime[3]);
-      dtRecord.second = doubleDigit2Number(&strTime[6]);
-    }
-  };
+  /*
+  Parse compiler time format to datetime record.
+
+  DESCRIPTION:
+  The method extracts corresponding parts of a time structure from string
+  formatted as a compiler __TIME__ system constant, e.g., "12:34:56".
+
+  PARAMETERS:
+  dtRecord - Referenced structure variable for desired date and time.
+  - Data type: gbj_apphelpers::Datetime
+  - Default value: none
+  - Limited range: address space
+
+  strTime - Pointer to a system time formatted string.
+  - Data type: char pointer
+  - Default value: none
+  - Limited range: address range
+
+  RETURN: none
+  */
+  static inline void parseTime(Datetime &dtRecord, const char *strTime)
+  {
+    // Parse time "12:34:56"
+    dtRecord.hour = doubleDigit2Number(&strTime[0]);
+    dtRecord.minute = doubleDigit2Number(&strTime[3]);
+    dtRecord.second = doubleDigit2Number(&strTime[6]);
+  }
+
+  /*
+  Calculate altitude from barometric pressures.
+
+  DESCRIPTION:
+  The method calculates local altitude from provided local barometric pressure
+  and corresponding sea level pressure.
+  - Both input pressures should be in the same measurement unit. However that
+  unit can be arbitrary, usually Pascal or hectoPascal.
+
+  PARAMETERS:
+  pressure - Local barometric pressure in arbitrary measurement unit, usually
+  Pascal or hectoPascal.
+  - Data type: decimal
+  - Default value: none
+  - Limited range: none
+
+  pressureSea - Sea level barometric pressure in arbitrary measurement unit, but
+  the same as the first argument has.
+  - Data type: decimal
+  - Default value: none
+  - Limited range: none
+
+  RETURN:
+  Altitude in meters.
+  */
+  static inline float calculateAltitudeFromPressures(float pressure,
+                                                     float pressureSea)
+  {
+    return 44330.0 * (1.0 - pow(pressure / pressureSea, (1.0 / 5.255)));
+  }
+
+  /*
+  Calculate sea level barometric pressures.
+
+  DESCRIPTION:
+  The method calculates barometric pressure at sea level from provided local
+  pressure and altitude.
+  - The measurement unit of the local pressure can be arbitrary. However the
+  methods returns the sea level pressure in the same unit.
+
+  PARAMETERS:
+  pressure - Local barometric pressure in arbitrary measurement unit, usually
+  Pascal or hectoPascal.
+  - Data type: decimal
+  - Default value: none
+  - Limited range: none
+
+  altitude - Local altitude in meters for which the equivalent sea level
+  pressure should be calculated.
+  - Data type: decimal
+  - Default value: none
+  - Limited range: none
+
+  RETURN:
+  Barometric pressure at sea level.
+  */
+  static inline float calculatePressureSeaFromAltitude(float pressure,
+                                                       float altitude)
+  {
+    return pressure / pow(1.0 - altitude / 44330.0, 5.255);
+  }
+};
 
 #endif

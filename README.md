@@ -54,6 +54,8 @@ The class is not intended to be instantiated. Each method can be called directly
 
 * [calculateDewpoint()](#calculateDewpoint)
 * [calculateDigits()](#calculateDigits)
+* [calculateAltitudeFromPressures()](#calculateAltitudeFromPressures)
+* [calculatePressureSeaFromAltitude()](#calculatePressureSeaFromAltitude)
 
 
 #### Conversion
@@ -191,6 +193,58 @@ The method determines count of digits in an integer number expressed in decimal 
 
 #### Returns
 Number of digits in the integer at decimal notation in range 0 ~ 10.
+
+[Back to interface](#interface)
+
+
+<a id="calculateAltitudeFromPressures"></a>
+
+## calculateAltitudeFromPressures()
+
+#### Description
+The method calculates local altitude from provided local barometric pressure and corresponding sea level pressure.
+*-* Both input pressures should be in the same measurement unit. However that unit can be arbitrary, usually Pascal or hectoPascal.
+
+#### Syntax
+    float calculateAltitudeFromPressures(float pressure, float pressureSea)
+
+#### Parameters
+* **pressure**: Local barometric pressure in arbitrary measurement unit, usually Pascal or hectoPascal.
+  * *Valid values*: decimal number
+  * *Default value*: none
+
+* **pressureSea**: Sea level barometric pressure in arbitrary measurement unit, but the same as the first argument has.
+  * *Valid values*: decimal number
+  * *Default value*: none
+
+#### Returns
+Altitude in meters.
+
+[Back to interface](#interface)
+
+
+<a id="calculatePressureSeaFromAltitude"></a>
+
+## calculatePressureSeaFromAltitude()
+
+#### Description
+The method calculates barometric pressure at sea level from provided local pressure and altitude.
+* The measurement unit of the local pressure can be arbitrary. However the methods returns the sea level pressure in the same unit.
+
+#### Syntax
+    float calculatePressureSeaFromAltitude(float pressure, float altitude)
+
+#### Parameters
+* **pressure**: Local barometric pressure in arbitrary measurement unit, usually Pascal or hectoPascal.
+  * *Valid values*: decimal number
+  * *Default value*: none
+
+* **altitude**: Local altitude in meters for which the equivalent sea level pressure should be calculated.
+  * *Valid values*: decimal number
+  * *Default value*: none
+
+#### Returns
+Sea level barometric pressure.
 
 [Back to interface](#interface)
 

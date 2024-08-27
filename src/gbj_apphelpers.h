@@ -22,15 +22,9 @@
 #ifndef GBJ_APPHELPERS_H
 #define GBJ_APPHELPERS_H
 
+#include <Arduino.h>
 #if defined(__AVR__)
-  #include <Arduino.h>
   #include <inttypes.h>
-#elif defined(ESP8266)
-  #include <Arduino.h>
-#elif defined(ESP32)
-  #include <Arduino.h>
-#elif defined(PARTICLE)
-  #include <Particle.h>
 #endif
 
 class gbj_apphelpers
@@ -156,22 +150,22 @@ public:
   }
 
   /*
-    Parse compiler date and time format to datetime record.
+    Parse compiler day and time format to datetime record.
 
     DESCRIPTION:
-    The method extracts corresponding parts of a date as well as time
+    The method extracts corresponding parts of a day as well as time
     structure from strings formatted as a compiler __DATE__ and __TIME__
     system constants, e.g., "Dec 26 2018" and "12:34:56".
     - The method is overloaded, either for flashed constants or for generic
       strings in SRAM.
 
     PARAMETERS:
-    dtRecord - Referenced structure variable for desired date and time.
+    dtRecord - Referenced structure variable for desired day and time.
       - Data type: gbj_apphelpers::Datetime
       - Default value: none
       - Limited range: address space
 
-    strDate - Pointer to a system date formatted string.
+    strDate - Pointer to a system day formatted string.
       - Data type: char pointer
       - Default value: none
       - Limited range: address range
@@ -443,6 +437,133 @@ public:
     return result;
   }
 
+  /*
+    Format unix epoch time in seconds.
+
+    DESCRIPTION:
+    The method formats input seconds as a unix epoch time to date and time
+    string all with leading zeros.
+
+    PARAMETERS:
+    epochSeconds - Seconds since 01.01.1970 00:00:00.
+      - Data type: 32-bit integer
+
+    RETURN:
+    String - formatted textual expression of a date and time.
+  */
+  static inline String formatEpochSeconds(uint32_t epochSeconds)
+  {
+    // Number of days in month in normal year
+    int daysOfMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    long daysTillNow, extraTime, extraDays, index, flag = 0;
+    unsigned int day, month, year, hours, minutes, seconds;
+    // Calculate total days
+    daysTillNow = epochSeconds / (24 * 60 * 60);
+    extraTime = epochSeconds % (24 * 60 * 60);
+    year = 1970;
+    // Calculating current year
+    while (true)
+    {
+      if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
+      {
+        if (daysTillNow < 366)
+        {
+          break;
+        }
+        daysTillNow -= 366;
+      }
+      else
+      {
+        if (daysTillNow < 365)
+        {
+          break;
+        }
+        daysTillNow -= 365;
+      }
+      year += 1;
+    }
+    // Updating extradays because it will give days till previous day and we
+    // have include current day
+    extraDays = daysTillNow + 1;
+    if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
+    {
+      flag = 1;
+    }
+    // Calculating MONTH and DAY
+    month = 0;
+    index = 0;
+    if (flag == 1)
+    {
+      while (true)
+      {
+        if (index == 1)
+        {
+          if (extraDays - 29 < 0)
+          {
+            break;
+          }
+          month += 1;
+          extraDays -= 29;
+        }
+        else
+        {
+          if (extraDays - daysOfMonth[index] < 0)
+          {
+            break;
+          }
+          month += 1;
+          extraDays -= daysOfMonth[index];
+        }
+        index += 1;
+      }
+    }
+    else
+    {
+      while (true)
+      {
+        if (extraDays - daysOfMonth[index] < 0)
+        {
+          break;
+        }
+        month += 1;
+        extraDays -= daysOfMonth[index];
+        index += 1;
+      }
+    }
+    // Current Month
+    if (extraDays > 0)
+    {
+      month += 1;
+      day = extraDays;
+    }
+    else
+    {
+      if (month == 2 && flag == 1)
+      {
+        day = 29;
+      }
+      else
+      {
+        day = daysOfMonth[month - 1];
+      }
+    }
+    // Calculating dd.mm.yyyy HH:MM:SS
+    hours = extraTime / 3600;
+    minutes = (extraTime % 3600) / 60;
+    seconds = (extraTime % 3600) % 60;
+    // Format output
+    char result[20];
+    sprintf(result,
+            "%02u.%02u.%04u %02u:%02u:%02u",
+            day,
+            month,
+            year,
+            hours,
+            minutes,
+            seconds);
+    return result;
+  }
+
 private:
   /*
     Convert double digit to number.
@@ -469,19 +590,19 @@ private:
   }
 
   /*
-  Parse compiler date format to datetime record.
+  Parse compiler day format to datetime record.
 
   DESCRIPTION:
-  The method extracts corresponding parts of a date structure from string
+  The method extracts corresponding parts of a day structure from string
   formatted as a compiler __DATE__ system constant, e.g., "Dec 26 2018".
 
   PARAMETERS:
-  dtRecord - Referenced structure variable for desired date and time.
+  dtRecord - Referenced structure variable for desired day and time.
   - Data type: gbj_apphelpers::Datetime
   - Default value: none
   - Limited range: address space
 
-  strDate - Pointer to a system date formatted string.
+  strDate - Pointer to a system day formatted string.
   - Data type: char pointer
   - Default value: none
   - Limited range: address range
@@ -498,7 +619,7 @@ private:
   formatted as a compiler __TIME__ system constant, e.g., "12:34:56".
 
   PARAMETERS:
-  dtRecord - Referenced structure variable for desired date and time.
+  dtRecord - Referenced structure variable for desired day and time.
   - Data type: gbj_apphelpers::Datetime
   - Default value: none
   - Limited range: address space

@@ -74,6 +74,7 @@ The class is not intended to be instantiated. Each method can be called directly
 * [formatTimeDay()](#formatTimeDay)
 * [formatTimePeriod()](#formatTimePeriod)
 * [formatTimePeriodDense()](#formatTimePeriodDense)
+* [formatEpochSeconds()](#formatEpochSeconds)
 
 
 #### Utilities
@@ -518,5 +519,27 @@ Formatted string as an expression of a time period at most in days without delim
 
 #### See also
 [formatTimePeriod()](#formatTimePeriod)
+
+[Back to interface](#interface)
+
+
+<a id="formatEpochSeconds"></a>
+
+## formatEpochSeconds()
+
+#### Description
+The method formats input time period in seconds as a unit epoch time to date and time string with leading spaces.
+* Formatted output is of form `dd.mm.yyyy HH:MM:SS`.
+
+#### Syntax
+    String formatEpochSeconds(uint32_t epochSeconds)
+
+#### Parameters
+* **epochSeconds**: Unix epoch time in seconds.
+  * *Valid values*: 32-bit unsigned integer
+  * *Default value*: none
+
+#### Returns
+Formatted string as an expression of a date and time.
 
 [Back to interface](#interface)

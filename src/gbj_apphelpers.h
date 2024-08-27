@@ -451,12 +451,12 @@ public:
     RETURN:
     String - formatted textual expression of a date and time.
   */
-  static inline String formatEpochSeconds(uint32_t epochSeconds)
+  static inline String formatEpochSeconds(unsigned long epochSeconds)
   {
     // Number of days in month in normal year
     int daysOfMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    long day, month, year, hours, minutes, seconds;
     long daysTillNow, extraTime, extraDays, index, flag = 0;
-    unsigned int day, month, year, hours, minutes, seconds;
     // Calculate total days
     daysTillNow = epochSeconds / (24 * 60 * 60);
     extraTime = epochSeconds % (24 * 60 * 60);
@@ -547,14 +547,13 @@ public:
         day = daysOfMonth[month - 1];
       }
     }
-    // Calculating dd.mm.yyyy HH:MM:SS
     hours = extraTime / 3600;
     minutes = (extraTime % 3600) / 60;
     seconds = (extraTime % 3600) % 60;
-    // Format output
-    char result[20];
+    // Format output dd.mm.yyyy HH:MM:SS
+    char result[42];
     sprintf(result,
-            "%02u.%02u.%04u %02u:%02u:%02u",
+            "%02lu.%02lu.%04lu %02lu:%02lu:%02lu",
             day,
             month,
             year,

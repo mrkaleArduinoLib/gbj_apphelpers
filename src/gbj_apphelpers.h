@@ -327,24 +327,6 @@ public:
   }
 
   /*
-    URL encode string.
-
-    DESCRIPTION:
-    The method prepares a string for URL.
-
-    PARAMETERS:
-    url - Text for URL or entire one.
-      - Data type: String
-
-    RETURN: none
-  */
-  static inline String urlencode(String url)
-  {
-    url.replace(" ", "%20");
-    return url;
-  }
-
-  /*
     Format daily time in seconds.
 
     DESCRIPTION:
@@ -563,6 +545,49 @@ public:
     return result;
   }
 
+  /*
+  Provide URL encoding of the string.
+
+  DESCRIPTION:
+  The method escapes funny characters in a URL. For example a space is: %20.
+
+  PARAMETERS:
+  str - String to be encoded.
+  - Data type: String
+  - Default value: none
+  - Limited range: none
+
+  RETURN:
+  URL encoded string.
+
+  CREDIT:
+  ESP8266 Hello World urlencode by Steve Nelson.
+  https://github.com/zenmanenergy/ESP8266-Arduino-Examples/tree/master/helloWorld_urlencoded
+  */
+  static String urlencode(String str);
+
+    /*
+    Provide URL decoding of the string.
+
+    DESCRIPTION:
+    The method converts all URL encoded characters to original funny characters
+    from a URL. For example a space is: %20.
+
+    PARAMETERS:
+    str - String to be decoded.
+    - Data type: String
+    - Default value: none
+    - Limited range: none
+
+    RETURN:
+    URL decoded string.
+
+    CREDIT:
+    ESP8266 Hello World urlencode by Steve Nelson.
+    https://github.com/zenmanenergy/ESP8266-Arduino-Examples/tree/master/helloWorld_urlencoded
+    */
+    static String urldecode(String str);
+
 private:
   /*
     Convert double digit to number.
@@ -698,6 +723,42 @@ private:
                                                        float altitude)
   {
     return pressure / pow(1.0 - altitude / 44330.0, 5.255);
+  }
+
+  /*
+  Convert character to number.
+
+  DESCRIPTION:
+  For URL Decoding the method calculates numberic representation of a character.
+
+  PARAMETERS:
+  c - Converted character
+  - Data type: char
+  - Default value: none
+  - Limited range: none
+
+  RETURN:
+  Numeric representation of the character.
+
+  CREDIT:
+  ESP8266 Hello World urlencode by Steve Nelson.
+  https://github.com/zenmanenergy/ESP8266-Arduino-Examples/tree/master/helloWorld_urlencoded
+  */
+  static inline byte urldecode_hex2int(char c)
+  {
+    if (c >= '0' && c <= '9')
+    {
+      return (static_cast<byte>(c) - '0');
+    }
+    if (c >= 'a' && c <= 'f')
+    {
+      return (static_cast<byte>(c) - 'a' + 10);
+    }
+    if (c >= 'A' && c <= 'F')
+    {
+      return (static_cast<byte>(c) - 'A' + 10);
+    }
+    return 0;
   }
 };
 

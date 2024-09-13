@@ -37,12 +37,10 @@ The class is not intended to be instantiated. Each method can be called directly
 ## Interface
 
 ##### Custom data types
-
 * [Datetime](#Datetime)
 
 
 #### Data processing
-
 * [check()](#check)
 * [sanitize()](#sanitize)
 * [sort_buble_asc()](#sort_buble)
@@ -51,7 +49,6 @@ The class is not intended to be instantiated. Each method can be called directly
 
 
 #### Calculation
-
 * [calculateDewpoint()](#calculateDewpoint)
 * [calculateDigits()](#calculateDigits)
 * [calculateAltitudeFromPressures()](#calculateAltitudeFromPressures)
@@ -59,18 +56,17 @@ The class is not intended to be instantiated. Each method can be called directly
 
 
 #### Conversion
-
 * [convertCelsius2Fahrenheit()](#convertTemperature)
 * [convertFahrenheit2Celsius()](#convertTemperature)
+* [urlencode()](#urlencode)
+* [urldecode()](#urldecode)
 
 
 #### Parsing
-
 * [parseDateTime()](#parseDateTime)
 
 
 #### Formatting
-
 * [formatTimeDay()](#formatTimeDay)
 * [formatTimePeriod()](#formatTimePeriod)
 * [formatTimePeriodDense()](#formatTimePeriodDense)
@@ -78,7 +74,6 @@ The class is not intended to be instantiated. Each method can be called directly
 
 
 #### Utilities
-
 * [debounce()](#debounce)
 
 
@@ -541,5 +536,49 @@ The method formats input time period in seconds as a unit epoch time to date and
 
 #### Returns
 Formatted string as an expression of a date and time.
+
+[Back to interface](#interface)
+
+
+<a id="urlencode"></a>
+
+## urlencode()
+
+#### Description
+The method executes the URL encoding on input string for HTTP communications.
+* The method escapes funny characters in a URL. For example a space is: %20.
+
+#### Syntax
+    String urlencode(String str)
+
+#### Parameters
+* **str**: String to be encoded.
+  * *Valid values*: String
+  * *Default value*: none
+
+#### Returns
+URL encoded string.
+
+[Back to interface](#interface)
+
+
+<a id="urldecode"></a>
+
+## urldecode()
+
+#### Description
+The method executes the URL decoding on input string from HTTP communications.
+* The method converts all URL encoded characters to original funny characters from a URL. For example a space is: %20.
+
+#### Syntax
+    String urldecode(String str)
+
+#### Parameters
+* **str**: String to be decoded.
+  * *Valid values*: String
+  * *Default value*: none
+
+#### Returns
+URL decoded string.
 
 [Back to interface](#interface)

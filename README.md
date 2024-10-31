@@ -58,6 +58,7 @@ The class is not intended to be instantiated. Each method can be called directly
 #### Conversion
 * [convertCelsius2Fahrenheit()](#convertTemperature)
 * [convertFahrenheit2Celsius()](#convertTemperature)
+* [convertMs2Sec()](#convertMs2Sec)
 * [urlencode()](#urlencode)
 * [urldecode()](#urldecode)
 
@@ -71,6 +72,7 @@ The class is not intended to be instantiated. Each method can be called directly
 * [formatTimePeriod()](#formatTimePeriod)
 * [formatTimePeriodDense()](#formatTimePeriodDense)
 * [formatEpochSeconds()](#formatEpochSeconds)
+* [formatMsPeriod()](#formatMsPeriod)
 
 
 #### Utilities
@@ -263,6 +265,27 @@ The particular method calculates temperature expressed in one temperature scale 
 
 #### Returns
 Temperature in measurement units of target temperature scale.
+
+[Back to interface](#interface)
+
+
+<a id="convertMs2Sec"></a>
+
+## convertMs2Sec()
+
+#### Description
+The method calculates seconds from provided milliseconds and round seconds to integer mathematically.
+
+#### Syntax
+    uint32_t convertMs2Sec(uint32_t ms)
+
+#### Parameters
+* **ms**: Milliseconds to be converted.
+  * *Valid values*: 32-bit non-negative integers
+  * *Default value*: none
+
+#### Returns
+Seconds rounded to integer mathematically.
 
 [Back to interface](#interface)
 
@@ -536,6 +559,28 @@ The method formats input time period in seconds as a unit epoch time to date and
 
 #### Returns
 Formatted string as an expression of a date and time.
+
+[Back to interface](#interface)
+
+
+<a id="formatMsPeriod"></a>
+
+## formatMsPeriod()
+
+#### Description
+The method formats input milliseconds to string with days, hours, minutes, and seconds ([[x]xd ][[x]xh ][[x]xm ][x]xs).
+* This is the wrapper method for methods 'formatTimePeriod' and 'convertMs2Sec'.
+
+#### Syntax
+    String formatMsPeriod(uint32_t ms)
+
+#### Parameters
+* **ms**: Milliseconds to be converted to seconds and formatted to time period.
+  * *Valid values*: 32-bit non-negative integers
+  * *Default value*: none
+
+#### Returns
+Formatted textual expresion of a time period provided in milliseconds.
 
 [Back to interface](#interface)
 

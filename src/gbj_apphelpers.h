@@ -119,6 +119,27 @@ public:
   };
 
   /*
+    Convert milliseconds to seconds with rounding.
+
+    DESCRIPTION:
+    The method calculates seconds from provided milliseconds and round seconds
+    to integer mathematically.
+
+    PARAMETERS:
+    ms - Milliseconds to be converted.
+      - Data type: unsigned long integer
+      - Default value: none
+      - Limited range: 0 ~ (2^32 - 1)
+
+    RETURN:
+    Seconds rounded to integer mathematically.
+  */
+  static inline uint32_t convertMs2Sec(uint32_t ms)
+  {
+    return (ms + 500) / 1000;
+  }
+
+  /*
     Software button debouncing.
 
     DESCRIPTION:
@@ -367,7 +388,7 @@ public:
       - Data type: integer
 
     RETURN:
-     String - formatted textual expresion of a time period.
+    String - formatted textual expresion of a time period.
   */
   static inline String formatTimePeriod(uint32_t totalSeconds)
   {
@@ -546,47 +567,71 @@ public:
   }
 
   /*
-  Provide URL encoding of the string.
-
-  DESCRIPTION:
-  The method escapes funny characters in a URL. For example a space is: %20.
-
-  PARAMETERS:
-  str - String to be encoded.
-  - Data type: String
-  - Default value: none
-  - Limited range: none
-
-  RETURN:
-  URL encoded string.
-
-  CREDIT:
-  ESP8266 Hello World urlencode by Steve Nelson.
-  https://github.com/zenmanenergy/ESP8266-Arduino-Examples/tree/master/helloWorld_urlencoded
-  */
-  static String urlencode(String str);
-
-    /*
-    Provide URL decoding of the string.
+    Format milliseconds to time period.
 
     DESCRIPTION:
-    The method converts all URL encoded characters to original funny characters
-    from a URL. For example a space is: %20.
+    The method formats input milliseconds to string with days, hours, minutes,
+    and seconds ([[x]xd ][[x]xh ][[x]xm ][x]xs).
+    - This is the wrapper method for methods 'formatTimePeriod' and
+    'convertMs2Sec'.
 
     PARAMETERS:
-    str - String to be decoded.
+    ms - Milliseconds to be converted to seconds and formatted to time period.
+      - Data type: unsigned long integer
+      - Default value: none
+      - Limited range: 0 ~ (2^32 - 1)
+
+    RETURN:
+    String - formatted textual expresion of a time period provided in
+    milliseconds.
+  */
+  static inline String formatMsPeriod(uint32_t ms)
+  {
+    return formatTimePeriod(convertMs2Sec(ms));
+  }
+
+    /*
+    Provide URL encoding of the string.
+
+    DESCRIPTION:
+    The method escapes funny characters in a URL. For example a space is: %20.
+
+    PARAMETERS:
+    str - String to be encoded.
     - Data type: String
     - Default value: none
     - Limited range: none
 
     RETURN:
-    URL decoded string.
+    URL encoded string.
 
     CREDIT:
     ESP8266 Hello World urlencode by Steve Nelson.
     https://github.com/zenmanenergy/ESP8266-Arduino-Examples/tree/master/helloWorld_urlencoded
     */
-    static String urldecode(String str);
+    static String urlencode(String str);
+
+  /*
+  Provide URL decoding of the string.
+
+  DESCRIPTION:
+  The method converts all URL encoded characters to original funny characters
+  from a URL. For example a space is: %20.
+
+  PARAMETERS:
+  str - String to be decoded.
+  - Data type: String
+  - Default value: none
+  - Limited range: none
+
+  RETURN:
+  URL decoded string.
+
+  CREDIT:
+  ESP8266 Hello World urlencode by Steve Nelson.
+  https://github.com/zenmanenergy/ESP8266-Arduino-Examples/tree/master/helloWorld_urlencoded
+  */
+  static String urldecode(String str);
 
 private:
   /*

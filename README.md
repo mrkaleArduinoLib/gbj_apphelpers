@@ -32,6 +32,19 @@ The class is not intended to be instantiated. Each method can be called directly
 ```
 
 
+## Custom enumerations
+
+<a id="reboot"></a>
+
+#### Microcontroller internal reboot source codes
+* **McuReboots::MCUREBOOT\_UNKNOWN**: Unknown rebooting source.
+* **McuReboots::MCUREBOOT\_WIFI**: Reboot due to exceeded limit of wifi connection failures.
+* **McuReboots::MCUREBOOT\_WEB**: Reboot from the built-in webserver by clicking on related button of a web page.
+* **McuReboots::MCUREBOOT\_GSHEET**: Reboot due to exceeded limit of attempts to publish into Google Spreadsheets.
+* **McuReboots::MCUREBOOT\_THERMO**: Reboot due to exceeded limit of thermometers failures at temperature measurement.
+* **McuReboots::MCUREBOOT\_THINGSPEAK**: Reboot due to exceeded limit of attempts to publish into ThingSpeak cloud.
+
+
 <a id="interface"></a>
 
 ## Interface
@@ -59,6 +72,7 @@ The class is not intended to be instantiated. Each method can be called directly
 * [convertCelsius2Fahrenheit()](#convertTemperature)
 * [convertFahrenheit2Celsius()](#convertTemperature)
 * [convertMs2Sec()](#convertMs2Sec)
+* [convertReboot2Text()](#convertReboot2Text)
 * [urlencode()](#urlencode)
 * [urldecode()](#urldecode)
 
@@ -286,6 +300,27 @@ The method calculates seconds from provided milliseconds and round seconds to in
 
 #### Returns
 Seconds rounded to integer mathematically.
+
+[Back to interface](#interface)
+
+
+<a id="convertReboot2Text"></a>
+
+## convertReboot2Text()
+
+#### Description
+The method translates a provided <abbr title='Micro Controller Unit'>MCU</abbr> internal [reboot code](#reboot) to a textual representation.
+
+#### Syntax
+    String convertReboot2Text(byte code)
+
+#### Parameters
+* **code**: A code of MCU reboot source, usually and preferably from the enumeration [McuReboots](#reboot). Because the code is usually stored in the EEPROM, its value should not be 255, which is reserved as a EEPROM's factory none value.
+  * *Valid values*: 0 ~ 254
+  * *Default value*: none
+
+#### Returns
+Textual representation of a MCU reboot source.
 
 [Back to interface](#interface)
 

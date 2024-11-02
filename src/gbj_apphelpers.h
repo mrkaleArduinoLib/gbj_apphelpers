@@ -43,6 +43,17 @@ public:
     bool pm = false;
   };
 
+  // MCU internal reboot sources
+  enum McuReboots : byte
+  {
+    MCUREBOOT_UNKNOWN,
+    MCUREBOOT_WIFI,
+    MCUREBOOT_WEB,
+    MCUREBOOT_GSHEET,
+    MCUREBOOT_THERMO,
+    MCUREBOOT_THINGSPEAK,
+  };
+
   /*
     Calculate dew point temperature.
 
@@ -169,6 +180,53 @@ public:
     }
     return curVal;
   }
+
+  /*
+    Convert microcontroller code to textual name.
+
+    DESCRIPTION:
+    Provided MCU internal reboot code is translated to a textual representation.
+
+    PARAMETERS:
+    code - Microcontroller internal reboot source
+    - Data type: byte
+    - Default value: none
+    - Limited range: none
+
+    RETURN:
+    Textual representation of the MCU reboot source.
+  */
+  static inline String convertReboot2Text(byte code)
+  {
+    String result;
+    switch (static_cast<McuReboots>(code))
+    {
+      case McuReboots::MCUREBOOT_WIFI:
+        result = F("Wifi");
+        break;
+
+      case McuReboots::MCUREBOOT_WEB:
+        result = F("WebServer");
+        break;
+
+      case McuReboots::MCUREBOOT_GSHEET:
+        result = F("GoogleSpredsheets");
+        break;
+
+      case McuReboots::MCUREBOOT_THERMO:
+        result = F("Thermometer");
+        break;
+
+      case McuReboots::MCUREBOOT_THINGSPEAK:
+        result = F("Thingspeak");
+        break;
+
+      default:
+        result = F("Unknown");
+        break;
+    }
+    return result;
+  };
 
   /*
     Parse compiler day and time format to datetime record.
@@ -590,7 +648,7 @@ public:
     return formatTimePeriod(convertMs2Sec(ms));
   }
 
-    /*
+  /*
     Provide URL encoding of the string.
 
     DESCRIPTION:
@@ -608,28 +666,28 @@ public:
     CREDIT:
     ESP8266 Hello World urlencode by Steve Nelson.
     https://github.com/zenmanenergy/ESP8266-Arduino-Examples/tree/master/helloWorld_urlencoded
-    */
-    static String urlencode(String str);
+  */
+  static String urlencode(String str);
 
   /*
-  Provide URL decoding of the string.
+    Provide URL decoding of the string.
 
-  DESCRIPTION:
-  The method converts all URL encoded characters to original funny characters
-  from a URL. For example a space is: %20.
+    DESCRIPTION:
+    The method converts all URL encoded characters to original funny characters
+    from a URL. For example a space is: %20.
 
-  PARAMETERS:
-  str - String to be decoded.
-  - Data type: String
-  - Default value: none
-  - Limited range: none
+    PARAMETERS:
+    str - String to be decoded.
+    - Data type: String
+    - Default value: none
+    - Limited range: none
 
-  RETURN:
-  URL decoded string.
+    RETURN:
+    URL decoded string.
 
-  CREDIT:
-  ESP8266 Hello World urlencode by Steve Nelson.
-  https://github.com/zenmanenergy/ESP8266-Arduino-Examples/tree/master/helloWorld_urlencoded
+    CREDIT:
+    ESP8266 Hello World urlencode by Steve Nelson.
+    https://github.com/zenmanenergy/ESP8266-Arduino-Examples/tree/master/helloWorld_urlencoded
   */
   static String urldecode(String str);
 
@@ -659,46 +717,46 @@ private:
   }
 
   /*
-  Parse compiler day format to datetime record.
+    Parse compiler day format to datetime record.
 
-  DESCRIPTION:
-  The method extracts corresponding parts of a day structure from string
-  formatted as a compiler __DATE__ system constant, e.g., "Dec 26 2018".
+    DESCRIPTION:
+    The method extracts corresponding parts of a day structure from string
+    formatted as a compiler __DATE__ system constant, e.g., "Dec 26 2018".
 
-  PARAMETERS:
-  dtRecord - Referenced structure variable for desired day and time.
-  - Data type: gbj_apphelpers::Datetime
-  - Default value: none
-  - Limited range: address space
+    PARAMETERS:
+    dtRecord - Referenced structure variable for desired day and time.
+    - Data type: gbj_apphelpers::Datetime
+    - Default value: none
+    - Limited range: address space
 
-  strDate - Pointer to a system day formatted string.
-  - Data type: char pointer
-  - Default value: none
-  - Limited range: address range
+    strDate - Pointer to a system day formatted string.
+    - Data type: char pointer
+    - Default value: none
+    - Limited range: address range
 
-  RETURN: none
+    RETURN: none
   */
   static void parseDate(Datetime &dtRecord, const char *strDate);
 
   /*
-  Parse compiler time format to datetime record.
+    Parse compiler time format to datetime record.
 
-  DESCRIPTION:
-  The method extracts corresponding parts of a time structure from string
-  formatted as a compiler __TIME__ system constant, e.g., "12:34:56".
+    DESCRIPTION:
+    The method extracts corresponding parts of a time structure from string
+    formatted as a compiler __TIME__ system constant, e.g., "12:34:56".
 
-  PARAMETERS:
-  dtRecord - Referenced structure variable for desired day and time.
-  - Data type: gbj_apphelpers::Datetime
-  - Default value: none
-  - Limited range: address space
+    PARAMETERS:
+    dtRecord - Referenced structure variable for desired day and time.
+    - Data type: gbj_apphelpers::Datetime
+    - Default value: none
+    - Limited range: address space
 
-  strTime - Pointer to a system time formatted string.
-  - Data type: char pointer
-  - Default value: none
-  - Limited range: address range
+    strTime - Pointer to a system time formatted string.
+    - Data type: char pointer
+    - Default value: none
+    - Limited range: address range
 
-  RETURN: none
+    RETURN: none
   */
   static inline void parseTime(Datetime &dtRecord, const char *strTime)
   {
@@ -709,29 +767,29 @@ private:
   }
 
   /*
-  Calculate altitude from barometric pressures.
+    Calculate altitude from barometric pressures.
 
-  DESCRIPTION:
-  The method calculates local altitude from provided local barometric pressure
-  and corresponding sea level pressure.
-  - Both input pressures should be in the same measurement unit. However that
-  unit can be arbitrary, usually Pascal or hectoPascal.
+    DESCRIPTION:
+    The method calculates local altitude from provided local barometric pressure
+    and corresponding sea level pressure.
+    - Both input pressures should be in the same measurement unit. However that
+    unit can be arbitrary, usually Pascal or hectoPascal.
 
-  PARAMETERS:
-  pressure - Local barometric pressure in arbitrary measurement unit, usually
-  Pascal or hectoPascal.
-  - Data type: decimal
-  - Default value: none
-  - Limited range: none
+    PARAMETERS:
+    pressure - Local barometric pressure in arbitrary measurement unit, usually
+    Pascal or hectoPascal.
+    - Data type: decimal
+    - Default value: none
+    - Limited range: none
 
-  pressureSea - Sea level barometric pressure in arbitrary measurement unit, but
-  the same as the first argument has.
-  - Data type: decimal
-  - Default value: none
-  - Limited range: none
+    pressureSea - Sea level barometric pressure in arbitrary measurement unit,
+    but the same as the first argument has.
+    - Data type: decimal
+    - Default value: none
+    - Limited range: none
 
-  RETURN:
-  Altitude in meters.
+    RETURN:
+    Altitude in meters.
   */
   static inline float calculateAltitudeFromPressures(float pressure,
                                                      float pressureSea)
@@ -740,29 +798,29 @@ private:
   }
 
   /*
-  Calculate sea level barometric pressures.
+    Calculate sea level barometric pressures.
 
-  DESCRIPTION:
-  The method calculates barometric pressure at sea level from provided local
-  pressure and altitude.
-  - The measurement unit of the local pressure can be arbitrary. However the
-  methods returns the sea level pressure in the same unit.
+    DESCRIPTION:
+    The method calculates barometric pressure at sea level from provided local
+    pressure and altitude.
+    - The measurement unit of the local pressure can be arbitrary. However the
+    methods returns the sea level pressure in the same unit.
 
-  PARAMETERS:
-  pressure - Local barometric pressure in arbitrary measurement unit, usually
-  Pascal or hectoPascal.
-  - Data type: decimal
-  - Default value: none
-  - Limited range: none
+    PARAMETERS:
+    pressure - Local barometric pressure in arbitrary measurement unit, usually
+    Pascal or hectoPascal.
+    - Data type: decimal
+    - Default value: none
+    - Limited range: none
 
-  altitude - Local altitude in meters for which the equivalent sea level
-  pressure should be calculated.
-  - Data type: decimal
-  - Default value: none
-  - Limited range: none
+    altitude - Local altitude in meters for which the equivalent sea level
+    pressure should be calculated.
+    - Data type: decimal
+    - Default value: none
+    - Limited range: none
 
-  RETURN:
-  Barometric pressure at sea level.
+    RETURN:
+    Barometric pressure at sea level.
   */
   static inline float calculatePressureSeaFromAltitude(float pressure,
                                                        float altitude)
@@ -771,23 +829,24 @@ private:
   }
 
   /*
-  Convert character to number.
+    Convert character to number.
 
-  DESCRIPTION:
-  For URL Decoding the method calculates numberic representation of a character.
+    DESCRIPTION:
+    For URL Decoding the method calculates numberic representation of a
+    character.
 
-  PARAMETERS:
-  c - Converted character
-  - Data type: char
-  - Default value: none
-  - Limited range: none
+    PARAMETERS:
+    c - Converted character
+    - Data type: char
+    - Default value: none
+    - Limited range: none
 
-  RETURN:
-  Numeric representation of the character.
+    RETURN:
+    Numeric representation of the character.
 
-  CREDIT:
-  ESP8266 Hello World urlencode by Steve Nelson.
-  https://github.com/zenmanenergy/ESP8266-Arduino-Examples/tree/master/helloWorld_urlencoded
+    CREDIT:
+    ESP8266 Hello World urlencode by Steve Nelson.
+    https://github.com/zenmanenergy/ESP8266-Arduino-Examples/tree/master/helloWorld_urlencoded
   */
   static inline byte urldecode_hex2int(char c)
   {

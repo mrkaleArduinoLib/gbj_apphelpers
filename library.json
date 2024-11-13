@@ -1,6 +1,6 @@
 {
   "name": "gbj_apphelpers",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "The library provides common application oriented funcionalities in order not to multiply them in sensor libraries.",
   "keywords": "application, helper",
   "repository": {

@@ -312,10 +312,10 @@ Seconds rounded to integer mathematically.
 The method translates a provided <abbr title='Micro Controller Unit'>MCU</abbr> internal [reboot code](#reboot) to a textual representation.
 
 #### Syntax
-    String convertReboot2Text(byte code)
+    String convertReboot2Text(McuReboots code)
 
 #### Parameters
-* **code**: A code of MCU reboot source, usually and preferably from the enumeration [McuReboots](#reboot). Because the code is usually stored in the EEPROM, its value should not be 255, which is reserved as a EEPROM's factory none value.
+* **code**: A code of MCU reboot source from the enumeration [McuReboots](#reboot). Because the code is usually stored in the EEPROM, its value should not be 255, which is reserved as a EEPROM's factory none value.
   * *Valid values*: 0 ~ 254
   * *Default value*: none
 

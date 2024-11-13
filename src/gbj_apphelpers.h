@@ -189,17 +189,17 @@ public:
 
     PARAMETERS:
     code - Microcontroller internal reboot source
-    - Data type: byte
+    - Data type: McuReboots
     - Default value: none
     - Limited range: none
 
     RETURN:
     Textual representation of the MCU reboot source.
   */
-  static inline String convertReboot2Text(byte code)
+  static inline String convertReboot2Text(McuReboots code)
   {
     String result;
-    switch (static_cast<McuReboots>(code))
+    switch (code)
     {
       case McuReboots::MCUREBOOT_WIFI:
         result = F("Wifi");

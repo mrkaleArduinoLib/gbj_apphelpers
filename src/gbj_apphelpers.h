@@ -47,6 +47,7 @@ public:
   enum McuReboots : byte
   {
     MCUREBOOT_UNKNOWN,
+    MCUREBOOT_ERRORS,
     MCUREBOOT_WIFI,
     MCUREBOOT_WEB,
     MCUREBOOT_GSHEET,
@@ -201,6 +202,10 @@ public:
     String result;
     switch (code)
     {
+      case McuReboots::MCUREBOOT_ERRORS:
+        result = F("Permanent Error(s)");
+        break;
+
       case McuReboots::MCUREBOOT_WIFI:
         result = F("Wifi");
         break;

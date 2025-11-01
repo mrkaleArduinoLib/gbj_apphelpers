@@ -696,6 +696,52 @@ public:
   */
   static String urldecode(String str);
 
+  /**
+   * @brief Cummulate long uptime in seconds.
+   *
+   * @note Uptime in milliseconds beyond the overflow of millis() in 32-bit
+   * unsigned long is rounded up to seconds, i.e., every started second is
+   * counted.
+   * @note The maximum value for millis() is 4294967295 (2^32 - 1), which is
+   * about 49.71 days.
+   * @note Counting uptime in seconds enables uptime up to 136.1 years.
+   * @note Counting uptime seconds starts just at MCU boot and continues forever
+   * until MCU is running.
+   *
+   * @param uptimeMs Uptime in milliseconds.
+   *
+   * @return Cummulated uptime in seconds.
+   *
+   */
+  static inline unsigned long uptimeSecondsCummulate(unsigned long uptimeMs)
+  {
+    static unsigned long uptimeSec = 0;
+    static unsigned long secLast = 0;
+    unsigned long sec = 0;
+    // Calculate seconds from milliseconds with rounding
+    if (uptimeMs > static_cast<unsigned long>(UINT32_MAX) - 999)
+    {
+      // Safe fallback to avoid overflow
+      sec = uptimeMs / 1000 + 1;
+    }
+    else
+    {
+      sec = (uptimeMs + 999) / 1000;
+    }
+    // Uptime seconds cummulation
+    if (sec >= secLast)
+    {
+      secLast = sec;
+    }
+    // millis() overflow detected, cummulate seconds
+    else
+    {
+      uptimeSec += secLast;
+      secLast = sec;
+    }
+    return uptimeSec + secLast;
+  }
+
 private:
   /*
     Convert double digit to number.

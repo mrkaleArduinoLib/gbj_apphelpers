@@ -75,6 +75,7 @@ The class is not intended to be instantiated. Each method can be called directly
 * [convertReboot2Text()](#convertReboot2Text)
 * [urlencode()](#urlencode)
 * [urldecode()](#urldecode)
+* [uptimeSecondsCummulate()](#uptimeSecondsCummulate)
 
 
 #### Parsing
@@ -660,5 +661,30 @@ The method executes the URL decoding on input string from HTTP communications.
 
 #### Returns
 URL decoded string.
+
+[Back to interface](#interface)
+
+
+<a id="uptimeSecondsCummulate"></a>
+
+## uptimeSecondsCummulate()
+
+#### Description
+The method converts provided milliseconds to seconds, rounds them to the nearest greater number, and that result cummulates since start of microcontroler.
+* Uptime in milliseconds beyond the overflow of millis() in 32-bit unsigned long is rounded up to seconds, i.e., every started second is counted.
+* The maximum value for millis() is 4294967295 (2^32 - 1), which is about 49.71 days.
+* Counting uptime in seconds enables uptime up to 136.1 years.
+* Counting uptime seconds starts just at MCU boot and continues forever until MCU is running.
+
+#### Syntax
+    unsigned long uptimeSecondsCummulate(unsigned long uptimeMs)
+
+#### Parameters
+* **uptimeMs**: Uptime in milliseconds.
+  * *Valid values*: 0 ~ 4294967295
+  * *Default value*: none
+
+#### Returns
+Cummulated uptime in seconds.
 
 [Back to interface](#interface)

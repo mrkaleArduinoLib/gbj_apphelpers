@@ -43,6 +43,7 @@ The class is not intended to be instantiated. Each method can be called directly
 * **McuReboots::MCUREBOOT\_GSHEET**: Reboot due to exceeded limit of attempts to publish into Google Spreadsheets.
 * **McuReboots::MCUREBOOT\_THERMO**: Reboot due to exceeded limit of thermometers failures at temperature measurement.
 * **McuReboots::MCUREBOOT\_THINGSPEAK**: Reboot due to exceeded limit of attempts to publish into ThingSpeak cloud.
+* **McuReboots::MCUREBOOT\_PERIODIC**: Reboot MCU periodically, e.g., every day.
 
 
 <a id="interface"></a>

@@ -53,6 +53,7 @@ public:
     MCUREBOOT_GSHEET,
     MCUREBOOT_THERMO,
     MCUREBOOT_THINGSPEAK,
+    MCUREBOOT_PERIODICAL,
   };
 
   /*
@@ -224,6 +225,10 @@ public:
 
       case McuReboots::MCUREBOOT_THINGSPEAK:
         result = F("Thingspeak");
+        break;
+
+      case McuReboots::MCUREBOOT_PERIODICAL:
+        result = F("Periodical");
         break;
 
       default:

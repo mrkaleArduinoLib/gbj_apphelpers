@@ -54,6 +54,7 @@ public:
     MCUREBOOT_THERMO,
     MCUREBOOT_THINGSPEAK,
     MCUREBOOT_PERIODICAL,
+    MCUREBOOT_EVENTING,
   };
 
   /*
@@ -229,6 +230,10 @@ public:
 
       case McuReboots::MCUREBOOT_PERIODICAL:
         result = F("Periodical");
+        break;
+
+      case McuReboots::MCUREBOOT_EVENTING:
+        result = F("Eventing");
         break;
 
       default:
@@ -733,17 +738,13 @@ public:
     {
       sec = (uptimeMs + 999) / 1000;
     }
-    // Uptime seconds cummulation
-    if (sec >= secLast)
-    {
-      secLast = sec;
-    }
     // millis() overflow detected, cummulate seconds
-    else
+    if (sec < secLast)
     {
       uptimeSec += secLast;
-      secLast = sec;
     }
+    secLast = sec;
+    // Uptime seconds cummulation
     return uptimeSec + secLast;
   }
 
